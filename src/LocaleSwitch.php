@@ -17,6 +17,8 @@ class LocaleSwitch extends Control
     private $translator;
     /** @var string template path */
     private $templatePath;
+    /** @var array domain alias */
+    private $domainAlias = [];
 
 
     /**
@@ -49,21 +51,30 @@ class LocaleSwitch extends Control
 
 
     /**
+     * Set array domain alias.
+     *
+     * @param $alias
+     * @return $this
+     */
+    public function setDomain($alias)
+    {
+        $this->domainAlias = $alias;
+        return $this;
+    }
+
+
+    /**
      * Render component.
      */
     public function render()
     {
         $template = $this->getTemplate();
 
-//FIXME opravit!
-        $template->host = null;
-        if ($this->presenter->context->parameters['router']['languageDomainSwitch']) {
-            $template->flipLanguageDomainAlias = array_flip($this->presenter->context->parameters['router']['languageDomainAlias']);
+        if ($this->domainAlias) {
+            $template->flipDomainAlias = array_flip($this->domainAlias);
         }
-
-        $template->languageName = $this->language->getNameLanguages();
-        $template->languages = $this->language->getNameLanguages();
-        $template->languageCode = $this->language->getCodeLanguage();
+        $template->locales = $this->locale->getListName();
+        $template->localeCode = $this->locale->getCode();
 
         $template->setTranslator($this->translator);
         $template->setFile($this->templatePath);
