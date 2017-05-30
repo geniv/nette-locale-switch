@@ -27,10 +27,15 @@ services:
 usage:
 ```php
 use LocaleSwitch;
+use AliasRouter\Model;
 
 protected function createComponentLocaleSwitch(LocaleSwitch $localeSwitch)
 {
-    $localeSwitch->setTemplatePath(__DIR__ . '/templates/localeSwitch.latte');
+//    $localeSwitch->setTemplatePath(__DIR__ . '/templates/localeSwitch.latte');
+    $domain = $this->context->getByType(Model::class)->getDomain();
+    if (isset($domain['switch']) && isset($domain['alias']) && $domain['switch']) {
+        $localeSwitch->setDomain($domain['alias']);
+    }
     return $localeSwitch;
 }
 ```

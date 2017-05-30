@@ -1,6 +1,7 @@
 <?php
 
 use Nette\Application\UI\Control;
+use Nette\Http\Url;
 use Nette\Localization\ITranslator;
 use Locale\Locale;
 
@@ -17,6 +18,8 @@ class LocaleSwitch extends Control
     private $translator;
     /** @var string template path */
     private $templatePath;
+    /** @var array domain alias */
+    private $domainAlias = [];
 
 
     /**
@@ -49,21 +52,42 @@ class LocaleSwitch extends Control
 
 
     /**
+     * Set array domain alias.
+     *
+     * @param $alias
+     * @return $this
+     */
+    public function setDomain($alias)
+    {
+        $this->domainAlias = $alias;
+        return $this;
+    }
+
+
+    /**
      * Render component.
      */
     public function render()
     {
         $template = $this->getTemplate();
 
-//FIXME opravit!
-        $template->host = null;
-        if ($this->presenter->context->parameters['router']['languageDomainSwitch']) {
-            $template->flipLanguageDomainAlias = array_flip($this->presenter->context->parameters['router']['languageDomainAlias']);
+        $links = [];
+        $pameteters = $this->parent->getParameters();   // naceni parametru
+        $flipDomainAlias = array_flip($this->domainAlias);  // obraceni pole domen
+        $localeList = $this->locale->getListName(); // vyber listu jazyku
+        foreach ($localeList as $code => $name) {
+            $param = array_merge($pameteters, ['locale' => $code]); // slouceni paremetru s url a noveho jazyka
+            if ($this->domainAlias && isset($flipDomainAlias[$code])) { // pokud je aktivni domain switch
+                $url = new Url($this->parent->link('//this', $param));  // vytvoreni linku a prevod na url
+                $url->host = $flipDomainAlias[$code];   // zamena hostu za flipnuty jazyk
+                $links[$code] = ['url' => strval($url), 'name' => $name];
+            } else {
+                $links[$code] = ['url' => $this->parent->link('//this', $param), 'name' => $name];
+            }
         }
 
-        $template->languageName = $this->language->getNameLanguages();
-        $template->languages = $this->language->getNameLanguages();
-        $template->languageCode = $this->language->getCodeLanguage();
+        $template->links = $links;
+        $template->localeCode = $this->locale->getCode();
 
         $template->setTranslator($this->translator);
         $template->setFile($this->templatePath);
