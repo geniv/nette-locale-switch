@@ -1,6 +1,7 @@
 <?php
 
 use Nette\Application\UI\Control;
+use Nette\Http\Url;
 use Nette\Localization\ITranslator;
 use Locale\Locale;
 
@@ -70,10 +71,22 @@ class LocaleSwitch extends Control
     {
         $template = $this->getTemplate();
 
-        if ($this->domainAlias) {
-            $template->flipDomainAlias = array_flip($this->domainAlias);
+        $links = [];
+        $pameteters = $this->parent->getParameters();   // naceni parametru
+        $flipDomainAlias = array_flip($this->domainAlias);  // obraceni pole domen
+        $localeList = $this->locale->getListName(); // vyber listu jazyku
+        foreach ($localeList as $code => $name) {
+            $param = array_merge($pameteters, ['locale' => $code]); // slouceni paremetru s url a noveho jazyka
+            if ($this->domainAlias && isset($flipDomainAlias[$code])) { // pokud je aktivni domain switch
+                $url = new Url($this->parent->link('//this', $param));  // vytvoreni linku a prevod na url
+                $url->host = $flipDomainAlias[$code];   // zamena hostu za flipnuty jazyk
+                $links[$code] = ['url' => strval($url), 'name' => $name];
+            } else {
+                $links[$code] = ['url' => $this->parent->link('//this', $param), 'name' => $name];
+            }
         }
-        $template->locales = $this->locale->getListName();
+
+        $template->links = $links;
         $template->localeCode = $this->locale->getCode();
 
         $template->setTranslator($this->translator);

@@ -1,13 +1,7 @@
 <ul class="nav navbar-nav navbar-right navbar-lang">
-    {foreach $locales as $code => $name}
-        {if $code == $localeCode}
-            <li class="active">
-                <a href="#" class="not-allowed">{$name}</a>
-            </li>
-        {else}
-            <li>
-                <a href="{ifset $flipDomainAlias}//{$flipDomainAlias[$code]}{plink this, (expand) $presenter->request->getParameters()}{else}{plink //this, (expand) $presenter->request->getParameters(), locale=>$code}{/ifset}">{$name}</a>
-            </li>
-        {/if}
-    {/foreach}
+    <li n:foreach="$links as $code => $item" n:class="$code==$localeCode?active">
+        <a href="{$code!=$localeCode?$links[$code]['url']:'#'}" n:class="$code==$localeCode?not-allowed">
+            {$links[$code]['name']}
+        </a>
+    </li>
 </ul>
