@@ -15,7 +15,7 @@ or
 internal dependency:
 ```json
 "nette/nette": ">=2.4.0",
-"geniv/nette-locale": ">=1.0"
+"geniv/nette-locale": ">=1.0.0"
 ```
 
 neon configure:
