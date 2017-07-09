@@ -9,11 +9,12 @@ $ composer require geniv/nette-locale-switch
 ```
 or
 ```json
-"geniv/nette-locale-switch": ">=1.0"
+"geniv/nette-locale-switch": ">=1.0.0"
 ```
 
-internal dependency:
+require:
 ```json
+"php": ">=5.6.0",
 "nette/nette": ">=2.4.0",
 "geniv/nette-locale": ">=1.0.0"
 ```
