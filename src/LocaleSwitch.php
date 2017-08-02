@@ -13,6 +13,7 @@ use Locale\Locale;
  */
 class LocaleSwitch extends Control
 {
+    /** @var Locale */
     private $locale;
     /** @var ITranslator|null */
     private $translator;
@@ -34,7 +35,7 @@ class LocaleSwitch extends Control
 
         $this->locale = $locale;
         $this->translator = $translator;
-        $this->templatePath = __DIR__ . '/LocaleSwitch.latte';  // implicitni cesta
+        $this->templatePath = __DIR__ . '/LocaleSwitch.latte';  // default path
     }
 
 
@@ -72,14 +73,14 @@ class LocaleSwitch extends Control
         $template = $this->getTemplate();
 
         $links = [];
-        $pameteters = $this->parent->getParameters();   // naceni parametru
-        $flipDomainAlias = array_flip($this->domainAlias);  // obraceni pole domen
-        $localeList = $this->locale->getListName(); // vyber listu jazyku
+        $pameteters = $this->parent->getParameters();   // presenter parameters
+        $flipDomainAlias = array_flip($this->domainAlias);  // flip array domains
+        $localeList = $this->locale->getListName(); // get list locales
         foreach ($localeList as $code => $name) {
-            $param = array_merge($pameteters, ['locale' => $code]); // slouceni paremetru s url a noveho jazyka
-            if ($this->domainAlias && isset($flipDomainAlias[$code])) { // pokud je aktivni domain switch
-                $url = new Url($this->parent->link('//this', $param));  // vytvoreni linku a prevod na url
-                $url->host = $flipDomainAlias[$code];   // zamena hostu za flipnuty jazyk
+            $param = array_merge($pameteters, ['locale' => $code]); // merge parameters with url and new locale
+            if ($this->domainAlias && isset($flipDomainAlias[$code])) { // if active domain switch
+                $url = new Url($this->parent->link('//this', $param));  // make Url link
+                $url->host = $flipDomainAlias[$code];   // set Url host with flip locale
                 $links[$code] = ['url' => strval($url), 'name' => $name];
             } else {
                 $links[$code] = ['url' => $this->parent->link('//this', $param), 'name' => $name];
