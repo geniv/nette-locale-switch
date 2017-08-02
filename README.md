@@ -9,11 +9,12 @@ $ composer require geniv/nette-locale-switch
 ```
 or
 ```json
-"geniv/nette-locale-switch": ">=1.0"
+"geniv/nette-locale-switch": ">=1.0.0"
 ```
 
-internal dependency:
+require:
 ```json
+"php": ">=5.6.0",
 "nette/nette": ">=2.4.0",
 "geniv/nette-locale": ">=1.0.0"
 ```
@@ -31,7 +32,7 @@ use AliasRouter\Model;
 
 protected function createComponentLocaleSwitch(LocaleSwitch $localeSwitch)
 {
-//    $localeSwitch->setTemplatePath(__DIR__ . '/templates/localeSwitch.latte');
+    //$localeSwitch->setTemplatePath(__DIR__ . '/templates/localeSwitch.latte');
     $domain = $this->context->getByType(Model::class)->getDomain();
     if (isset($domain['switch']) && isset($domain['alias']) && $domain['switch']) {
         $localeSwitch->setDomain($domain['alias']);
