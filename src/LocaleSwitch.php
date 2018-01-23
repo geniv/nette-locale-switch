@@ -3,7 +3,7 @@
 use Nette\Application\UI\Control;
 use Nette\Http\Url;
 use Nette\Localization\ITranslator;
-use Locale\Locale;
+use Locale\ILocale;
 
 
 /**
@@ -13,7 +13,7 @@ use Locale\Locale;
  */
 class LocaleSwitch extends Control
 {
-    /** @var Locale */
+    /** @var ILocale */
     private $locale;
     /** @var ITranslator|null */
     private $translator;
@@ -26,10 +26,10 @@ class LocaleSwitch extends Control
     /**
      * LocaleSwitch constructor.
      *
-     * @param Locale           $locale
+     * @param ILocale          $locale
      * @param ITranslator|null $translator
      */
-    public function __construct(Locale $locale, ITranslator $translator = null)
+    public function __construct(ILocale $locale, ITranslator $translator = null)
     {
         parent::__construct();
 
