@@ -30,10 +30,11 @@ usage:
 use LocaleSwitch;
 use AliasRouter\Model;
 
-protected function createComponentLocaleSwitch(LocaleSwitch $localeSwitch)
+protected function createComponentLocaleSwitch(LocaleSwitch $localeSwitch, Model $model)
 {
     //$localeSwitch->setTemplatePath(__DIR__ . '/templates/localeSwitch.latte');
-    $domain = $this->context->getByType(Model::class)->getDomain();
+    $domain = $model->getDomain();
+//        $domain = $this->context->getByType(StaticRouter::class)->getDomain();
     if (isset($domain['switch']) && isset($domain['alias']) && $domain['switch']) {
         $localeSwitch->setDomain($domain['alias']);
     }
