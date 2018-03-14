@@ -1,5 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
+use GeneralForm\ITemplatePath;
 use Nette\Application\UI\Control;
 use Nette\Http\Url;
 use Nette\Localization\ITranslator;
@@ -11,15 +12,15 @@ use Locale\ILocale;
  *
  * @author geniv
  */
-class LocaleSwitch extends Control
+class LocaleSwitch extends Control implements ITemplatePath
 {
     /** @var ILocale */
     private $locale;
     /** @var ITranslator|null */
     private $translator;
-    /** @var string template path */
+    /** @var string */
     private $templatePath;
-    /** @var array domain alias */
+    /** @var array */
     private $domainAlias = [];
 
 
@@ -43,22 +44,20 @@ class LocaleSwitch extends Control
      * Set template path.
      *
      * @param string $path
-     * @return $this
      */
-    public function setTemplatePath($path)
+    public function setTemplatePath(string $path)
     {
         $this->templatePath = $path;
-        return $this;
     }
 
 
     /**
-     * Set array domain alias.
+     * Set domain.
      *
-     * @param $alias
-     * @return $this
+     * @param array $alias
+     * @return LocaleSwitch
      */
-    public function setDomain($alias)
+    public function setDomain(array $alias): self
     {
         $this->domainAlias = $alias;
         return $this;
@@ -66,24 +65,25 @@ class LocaleSwitch extends Control
 
 
     /**
-     * Render component.
+     * Render.
      */
     public function render()
     {
         $template = $this->getTemplate();
 
         $links = [];
-        $pameteters = $this->parent->getParameters();   // presenter parameters
+        $parameters = $this->parent->getParameters();   // presenter parameters
         $flipDomainAlias = array_flip($this->domainAlias);  // flip array domains
         $localeList = $this->locale->getListName(); // get list locales
+        $localeListId = $this->locale->getListId();
         foreach ($localeList as $code => $name) {
-            $param = array_merge($pameteters, ['locale' => $code]); // merge parameters with url and new locale
+            $param = array_merge($parameters, ['locale' => $code]); // merge parameters with url and new locale
             if ($this->domainAlias && isset($flipDomainAlias[$code])) { // if active domain switch
                 $url = new Url($this->parent->link('//this', $param));  // make Url link
                 $url->host = $flipDomainAlias[$code];   // set Url host with flip locale
-                $links[$code] = ['url' => strval($url), 'name' => $name];
+                $links[$code] = ['url' => strval($url), 'name' => $name, 'id' => $localeListId[$code]];
             } else {
-                $links[$code] = ['url' => $this->parent->link('//this', $param), 'name' => $name];
+                $links[$code] = ['url' => $this->parent->link('//this', $param), 'name' => $name, 'id' => $localeListId[$code]];
             }
         }
 

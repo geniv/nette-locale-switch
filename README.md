@@ -14,9 +14,10 @@ or
 
 require:
 ```json
-"php": ">=5.6.0",
+"php": ">=7.0.0",
 "nette/nette": ">=2.4.0",
-"geniv/nette-locale": ">=1.0.0"
+"geniv/nette-locale": ">=1.0.0",
+"geniv/nette-general-form": ">=1.0.0"
 ```
 
 neon configure:
@@ -27,11 +28,9 @@ services:
 
 usage:
 ```php
-use LocaleSwitch;
-use AliasRouter\Model;
-
-protected function createComponentLocaleSwitch(LocaleSwitch $localeSwitch, Model $model)
+protected function createComponentLocaleSwitch(LocaleSwitch $localeSwitch, AliasRouter\Model $model)
 {
+    //$localeSwitchSection = clone $localeSwitch;
     //$localeSwitch->setTemplatePath(__DIR__ . '/templates/localeSwitch.latte');
     $domain = $model->getDomain();
 //        $domain = $this->context->getByType(StaticRouter::class)->getDomain();
