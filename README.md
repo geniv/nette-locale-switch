@@ -44,4 +44,6 @@ protected function createComponentLocaleSwitch(LocaleSwitch $localeSwitch, Alias
 usage:
 ```latte
 {control localeSwitch}
+or
+{control localeSwitch, $idLocale}
 ```

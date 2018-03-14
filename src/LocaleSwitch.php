@@ -66,16 +66,18 @@ class LocaleSwitch extends Control implements ITemplatePath
 
     /**
      * Render.
+     *
+     * @param null $idLocale
      */
-    public function render()
+    public function render($idLocale = null)
     {
         $template = $this->getTemplate();
 
         $links = [];
         $parameters = $this->parent->getParameters();   // presenter parameters
         $flipDomainAlias = array_flip($this->domainAlias);  // flip array domains
-        $localeList = $this->locale->getListName(); // get list locales
-        $localeListId = $this->locale->getListId();
+        $localeList = $this->locale->getListName(); // get list locale names
+        $localeListId = $this->locale->getListId(); // get list locale ids
         foreach ($localeList as $code => $name) {
             $param = array_merge($parameters, ['locale' => $code]); // merge parameters with url and new locale
             if ($this->domainAlias && isset($flipDomainAlias[$code])) { // if active domain switch
@@ -87,6 +89,7 @@ class LocaleSwitch extends Control implements ITemplatePath
             }
         }
 
+        $template->idLocale = $idLocale;
         $template->links = $links;
         $template->localeCode = $this->locale->getCode();
 
