@@ -66,8 +66,10 @@ class LocaleSwitch extends Control implements ITemplatePath
 
     /**
      * Render.
+     *
+     * @param null $idLocale
      */
-    public function render()
+    public function render($idLocale = null)
     {
         $template = $this->getTemplate();
 
@@ -87,6 +89,7 @@ class LocaleSwitch extends Control implements ITemplatePath
             }
         }
 
+        $template->idLocale = $idLocale;
         $template->links = $links;
         $template->localeCode = $this->locale->getCode();
 
