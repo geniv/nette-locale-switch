@@ -31,6 +31,7 @@ usage:
 protected function createComponentLocaleSwitch(LocaleSwitch $localeSwitch, AliasRouter\Model $model)
 {
     //$localeSwitchSection = clone $localeSwitch;
+    //$localeSwitch->setLocale(ILocale $locale);
     //$localeSwitch->setTemplatePath(__DIR__ . '/templates/localeSwitch.latte');
     $domain = $model->getDomain();
 //        $domain = $this->context->getByType(StaticRouter::class)->getDomain();

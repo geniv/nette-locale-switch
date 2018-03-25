@@ -41,6 +41,17 @@ class LocaleSwitch extends Control implements ITemplatePath
 
 
     /**
+     * Set locale.
+     *
+     * @param ILocale $locale
+     */
+    public function setLocale(ILocale $locale)
+    {
+        $this->locale = $locale;
+    }
+
+
+    /**
      * Set template path.
      *
      * @param string $path
