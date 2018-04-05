@@ -22,6 +22,8 @@ class LocaleSwitch extends Control implements ITemplatePath
     private $templatePath;
     /** @var array */
     private $domainAlias = [];
+    /** @var array */
+    private $variableTemplate = [];
 
 
     /**
@@ -76,11 +78,25 @@ class LocaleSwitch extends Control implements ITemplatePath
 
 
     /**
+     * Add variable template.
+     *
+     * @param string $name
+     * @param        $values
+     * @return LocaleSwitch
+     */
+    public function addVariableTemplate(string $name, $values): self
+    {
+        $this->variableTemplate[$name] = $values;
+        return $this;
+    }
+
+
+    /**
      * Render.
      *
-     * @param null $idLocale
+     * @param int|null $idLocale
      */
-    public function render($idLocale = null)
+    public function render(int $idLocale = null)
     {
         $template = $this->getTemplate();
 
@@ -98,6 +114,11 @@ class LocaleSwitch extends Control implements ITemplatePath
             } else {
                 $links[$code] = ['url' => $this->parent->link('//this', $param), 'name' => $name, 'id' => $localeListId[$code]];
             }
+        }
+
+        // add user defined variable
+        foreach ($this->variableTemplate as $name => $value) {
+            $template->$name = $value;
         }
 
         $template->idLocale = $idLocale;
