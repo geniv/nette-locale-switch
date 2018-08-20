@@ -2,6 +2,6 @@
     {if $code!=$localeCode}
         <a href="{$item['url']}" n:class="$code">{$item['name']}</a>
     {else}
-        <span n:class="$code, $code==$localeCode?active">{$item['name']}</span>
+        <span n:class="$code, active">{$item['name']}</span>
     {/if}
 {/foreach}
