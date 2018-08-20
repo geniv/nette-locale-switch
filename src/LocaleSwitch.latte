@@ -1,7 +1,7 @@
-<ul class="nav navbar-nav navbar-right navbar-lang">
-    <li n:foreach="$links as $code => $item" n:class="$code==$localeCode?active">
-        <a href="{$code!=$localeCode?$item['url']:'#'}" n:class="$code==$localeCode?not-allowed">
-            {$item['name']}
-        </a>
-    </li>
-</ul>
+{foreach $links as $code => $item}
+    {if $code!=$localeCode}
+        <a href="{$item['url']}" n:class="$code">{$item['name']}</a>
+    {else}
+        <span n:class="$code, $code==$localeCode?active">{$item['name']}</span>
+    {/if}
+{/foreach}
