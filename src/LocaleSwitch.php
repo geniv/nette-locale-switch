@@ -1,6 +1,5 @@
 <?php declare(strict_types=1);
 
-use GeneralForm\ITemplatePath;
 use Nette\Application\UI\Control;
 use Nette\Http\Url;
 use Nette\Localization\ITranslator;
@@ -12,7 +11,7 @@ use Locale\ILocale;
  *
  * @author geniv
  */
-class LocaleSwitch extends Control implements ILocaleSwitch, ITemplatePath
+class LocaleSwitch extends Control implements ILocaleSwitch
 {
     /** @var ILocale */
     private $locale;
