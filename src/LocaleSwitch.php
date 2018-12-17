@@ -12,7 +12,7 @@ use Locale\ILocale;
  *
  * @author geniv
  */
-class LocaleSwitch extends Control implements ITemplatePath
+class LocaleSwitch extends Control implements ILocaleSwitch, ITemplatePath
 {
     /** @var ILocale */
     private $locale;
@@ -21,9 +21,7 @@ class LocaleSwitch extends Control implements ITemplatePath
     /** @var string */
     private $templatePath;
     /** @var array */
-    private $domainAlias = [];
-    /** @var array */
-    private $variableTemplate = [];
+    private $domainAlias = [], $variableTemplate = [];
 
 
     /**
@@ -68,12 +66,10 @@ class LocaleSwitch extends Control implements ITemplatePath
      * Set domain.
      *
      * @param array $alias
-     * @return LocaleSwitch
      */
-    public function setDomain(array $alias): self
+    public function setDomain(array $alias)
     {
         $this->domainAlias = $alias;
-        return $this;
     }
 
 
@@ -82,12 +78,10 @@ class LocaleSwitch extends Control implements ITemplatePath
      *
      * @param string $name
      * @param        $values
-     * @return LocaleSwitch
      */
-    public function addVariableTemplate(string $name, $values): self
+    public function addVariableTemplate(string $name, $values)
     {
         $this->variableTemplate[$name] = $values;
-        return $this;
     }
 
 

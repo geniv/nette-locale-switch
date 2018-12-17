@@ -9,15 +9,15 @@ $ composer require geniv/nette-locale-switch
 ```
 or
 ```json
-"geniv/nette-locale-switch": ">=1.0.0"
+"geniv/nette-locale-switch": "^2.0"
 ```
 
 require:
 ```json
-"php": ">=7.0.0",
-"nette/nette": ">=2.4.0",
-"geniv/nette-locale": ">=1.0.0",
-"geniv/nette-general-form": ">=1.0.0"
+"php": ">=7.0",
+"nette/nette": ">=2.4",
+"geniv/nette-locale": ">=2.0",
+"geniv/nette-general-form": ">=1.0"
 ```
 
 neon configure:
@@ -28,15 +28,12 @@ services:
 
 usage:
 ```php
-protected function createComponentLocaleSwitch(LocaleSwitch $localeSwitch, AliasRouter\Model $model)
+protected function createComponentLocaleSwitch(ILocaleSwitch $localeSwitch, IAliasRouter $aliasRouter): ILocaleSwitch
 {
-    //$localeSwitchSection = clone $localeSwitch;
-    //$localeSwitch->setLocale(ILocale $locale);
-    //$localeSwitch->setTemplatePath(__DIR__ . '/templates/localeSwitch.latte');
-    $domain = $model->getDomain();
-//        $domain = $this->context->getByType(StaticRouter::class)->getDomain();
-    if (isset($domain['switch']) && isset($domain['alias']) && $domain['switch']) {
-        $localeSwitch->setDomain($domain['alias']);
+    //$localeSwitch->setTemplatePath(__DIR__ . '/templates/header-lang.latte');
+    $domain = $aliasRouter->getDomainAlias();
+    if ($domain) {
+        $localeSwitch->setDomain($domain);
     }
     return $localeSwitch;
 }
