@@ -1,5 +1,6 @@
 <?php declare(strict_types=1);
 
+use GeneralForm\ITemplatePath;
 use Locale\ILocale;
 
 
@@ -8,7 +9,7 @@ use Locale\ILocale;
  *
  * @author geniv
  */
-interface ILocaleSwitch
+interface ILocaleSwitch extends ITemplatePath
 {
 
     /**
